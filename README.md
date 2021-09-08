@@ -6,3 +6,11 @@
 
 学習用リポジトリです。
 内容は上記リンク先のものになります。
+
+## setup
+
+```sh
+> python -m venv venv
+# activate venv
+(venv) > pip install -r requirements.txt
+```
