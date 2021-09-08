@@ -9,7 +9,7 @@ gen = WaveAdder(
     SineOscillator(freq=440),
     TriangleOscillator(freq=220, amp=0.8),
     SawtoothOscillator(freq=110, amp=0.6),
-    SquareOscillator(freq=55, amp=0.4),
+    SquareOscillator(freq=1000, amp=0.4),
 )
 
 iter(gen)
