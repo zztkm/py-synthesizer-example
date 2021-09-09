@@ -10,6 +10,6 @@ class TriangleOscillator(SawtoothOscillator):
         val = 2 * (div - math.floor(0.5 + div))
         val = (abs(val) - 0.5) * 2
         self._i = self._i + 1
-        if self._wave_range is not (-1, 1):
+        if self._wave_range != (-1, 1):
             val = self.squish_val(val, *self._wave_range)
         return val * self._a

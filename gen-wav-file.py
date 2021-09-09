@@ -2,11 +2,11 @@ import librosa
 import numpy as np
 
 from save_wav import wave_to_file
-from wave_adder import WaveAdder
-from sin_oscillator import SineOscillator
-from triangle_oscillator import TriangleOscillator
 from sawtooth_oscillator import SawtoothOscillator
+from sin_oscillator import SineOscillator
 from square_oscillator import SquareOscillator
+from triangle_oscillator import TriangleOscillator
+from wave_adder import WaveAdder
 
 
 def get_val(osc, sample_rate=44100):
@@ -31,9 +31,40 @@ gen = WaveAdder(
     SquareOscillator(freq=1000, amp=0.4),
 )
 
+sin_440 = WaveAdder(
+    SineOscillator(freq=440),
+)
+# シとドの間
+sin_512 = WaveAdder(
+    SineOscillator(freq=512),
+)
+
+sin_530 = WaveAdder(
+    SineOscillator(freq=530),
+)
+
+sin_880 = WaveAdder(
+    SineOscillator(freq=880),
+)
+
 iter(gen)
-wav = [next(gen) for _ in range(44100 * 7)]
+wav = [next(gen) for _ in range(44100 * 4)]
 wave_to_file(wav, fname="prelude_one.wav")
+
+iter(sin_440)
+wav = [next(sin_440) for _ in range(44100 * 4)]
+wave_to_file(wav, fname="sin-440.wav")
+
+iter(sin_512)
+wav = [next(sin_512) for _ in range(44100 * 4)]
+wave_to_file(wav, fname="sin-512.wav")
+
+iter(sin_530)
+wav = [next(sin_530) for _ in range(44100 * 4)]
+wave_to_file(wav, fname="sin-530.wav")
+iter(sin_880)
+wav = [next(sin_880) for _ in range(44100 * 4)]
+wave_to_file(wav, fname="sin-880.wav")
 
 dur = 10
 osc = WaveAdder(

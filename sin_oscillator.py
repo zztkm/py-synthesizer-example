@@ -17,6 +17,6 @@ class SineOscillator(Oscillator):
     def __next__(self):
         val = math.sin(self._i + self._p)
         self._i = self._i + self._step
-        if self._wave_range is not (-1, 1):
+        if self._wave_range != (-1, 1):
             val = self.squish_val(val, *self._wave_range)
         return val * self._a
