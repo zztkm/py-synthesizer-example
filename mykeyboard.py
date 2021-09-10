@@ -1,10 +1,9 @@
-import sys
-
 import numpy as np
 import readchar
 from simpleaudio import WaveObject
 
 from sin_oscillator import SineOscillator
+from wave_adder import WaveAdder
 
 frequency = {
     "a": 262,
@@ -18,13 +17,19 @@ frequency = {
 }
 
 
-def get_wav_data(freq: int, amp=0.1):
+def get_sine_oscillator(freq: int, amp=0.1):
     sin = SineOscillator(freq=freq)
-    iter(sin)
-    wav = [next(sin) for _ in range(44100 * 1)]
-    wav = np.array(wav)
-    wav = np.int16(wav * amp * (2 ** 15 - 1))
-    return wav
+    return sin
+
+
+def setup():
+
+    oscillator_dict = {}
+    for k, v in frequency.items():
+        wav = get_sine_oscillator(v)
+        oscillator_dict[k] = wav
+
+    return oscillator_dict
 
 
 print("========   system message   =========")
@@ -32,16 +37,25 @@ print("keyboard software has been activated!")
 print("If you want to exit, press `q`")
 print("=====================================")
 
+oscillator_dict = setup()
+
 while 1:
     kb = readchar.readchar()
     print(kb)
     if kb == "q":
         print("qが入力されたので終了します")
         break
-    freq = frequency.get(kb)
-    if freq is None:
+
+    oscillator_list = [oscillator_dict.get(s, False) for s in kb]
+
+    if not all(oscillator_list):
         continue
-    wav = get_wav_data(freq)
-    wave_obj = WaveObject(wav)
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
+
+    wave = WaveAdder(*oscillator_list)
+
+    iter(wave)
+    wav = [next(wave) for _ in range(int(44100 * 1))]
+    wav = np.array(wav)
+    wav = np.int16(wav * 0.1 * (2 ** 15 - 1))
+    wav_obj = WaveObject(wav)
+    play_obj = wav_obj.play()
