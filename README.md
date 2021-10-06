@@ -9,6 +9,9 @@
 
 ## setup
 
+- linux or mac
+- python version 3.9
+
 ```sh
 > python -m venv venv
 # activate venv
